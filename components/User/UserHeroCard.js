@@ -32,8 +32,8 @@ const UserHeroCard = (props) =>{
                 Area of Expertise 
               </Text>
 
-              {["Career Transitions", "Software Developlment", "Product Management"].map(domain =>{
-                return <Text>
+              {["Career Transitions", "Software Developlment", "Product Management"].map((domain,index) =>{
+                return <Text key={index}>
                    {domain}
                 </Text>
               })}
