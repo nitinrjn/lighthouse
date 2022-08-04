@@ -2,7 +2,6 @@ import { Box, Heading, Flex, Center, Button, Text, AspectRatio } from '@chakra-u
 import Image from 'next/image'
 import Head from 'next/head'
 import {IoLogoTwitter, IoLogoYoutube, IoLogoLinkedin, IoLogoGithub} from 'react-icons/io5'
-import { InlineWidget } from 'react-calendly'
 
 import LightHouseLogo from '../public/LightHouse-Mentorship-Logo.png'
 
