@@ -16,7 +16,7 @@ const Foooter = (props) =>{
         
     </Center>
     <Text textAlign="center">
-                Made with ❤️ | Copyright 2022 
+                Made with NextJS, ChakraUI and ❤️
     </Text>
  </>
 }
