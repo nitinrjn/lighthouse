@@ -13,24 +13,25 @@ const Navbar = (props) => {
 
     return (
       <>
-          <Flex  minWidth="100%" alignItems="center">
+          <Flex backgroundColor="" marginY="15px" minWidth="100%" alignItems="center">
             <NextLink href="/">
-                <Button variant="ghost" size="lg">
-                    Lighthouse
+                <Button colorScheme="yellow" size="lg">
+                  Lighthouse
                 </Button>
             </NextLink>
             <Spacer/>
             <NextLink href="/mentors">
-              <Button as="a" size="lg" variant="ghost" colorScheme="black" aria-label="/search" my={5}>
+              <Button marginX="5px" size="lg" variant="ghost" >
                 Mentors
               </Button>
             </NextLink>
-            <NextLink href="/resources">
-              <Button as="a" size="lg" variant="ghost" colorScheme="black" aria-label="/search" my={5} >
-                Resources
+            <NextLink href="/guide">
+              <Button marginX="5px"  as="a" size="lg" variant="ghost" >
+                Guide
               </Button>
             </NextLink>
-            <Button as="a" size="lg" colorScheme="yellow"  aria-label="/profile" my={5} onClick={(e) => {e.preventDefault();}}>
+            
+            <Button marginX="5px" as="a" size="lg" variant="outline" colorScheme="yellow" onClick={(e) => {e.preventDefault();}}>
               Login
             </Button>
 

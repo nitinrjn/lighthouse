@@ -1,39 +1,51 @@
-import { Avatar, Box, Center, Flex, Badge, Text, Container } from "@chakra-ui/react";
-import { InlineWidget } from 'react-calendly'
+import {
+  Avatar,
+  Box,
+  Center,
+  Flex,
+  Badge,
+  Text,
+  Container,
+  Heading
+} from "@chakra-ui/react";
+import {SiLinkedin} from "react-icons/si";
+
+import { InlineWidget } from 'react-calendly';
+
+
+import AffinityTags from "./AffinityTags";
 
 
 const UserHeroCard = (props) =>{
 
-    
+    const user = props.user;
+
     return (
         <Center margin="10px" >
-            <Box p="5" borderRadius="sm" width="100%" minWidth="350px" maxWidth="1080px" boxShadow="lg"  borderWidth="1px">
-              <Center>
-                <Avatar size='2xl' name='Segun Adebayo' src='https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75' />{' '}
-              </Center>
-              <Text textAlign="center" marginY="5px" fontSize="2xl" fontWeight="semibold" lineHeight="short">
-                Nicu Parente
-              </Text>
-              <Center 
-               width="100%" 
-               marginY="5px"> 
-                <Badge marginRight="10px" colorScheme="green">Veteran</Badge>
-                <Badge marginRight="10px" colorScheme="blue">No-Degree</Badge>
-              </Center>
-              <Flex>
-                <Container>
+            <Flex p="5" borderRadius="sm"  minWidth="350px" maxWidth="1080px" boxShadow="lg"  borderWidth="1px">
+              <Flex  flexDirection="column" marginLeft="10px" alignItems="center" minWidth="350px">
+                  <Flex alignItems="center" minWidth="350px">
+                    <Avatar size='xl' name='Nicu Parente' src='https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75' />
+                    <Box marginLeft="10px">
+                      <Heading size="lg"  lineHeight="short">
+                        {user.firstName} {user.lastName}
+                      </Heading>
+                      <AffinityTags userAffinity={user.affinity}/>
+                    </Box>
+                  </Flex>
+                  <Box>
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         About Me
                     </Text>
                     <Text marginY="5px">
-                    I have over 8+ years of experience working in big tech companies as a software engineer and product manager.
+                     {user.aboutMe}
                     </Text>
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                       Area of Expertise 
                     </Text>
 
-                    {["Career Transitions", "Software Developlment", "Product Management"].map((domain,index) =>{
+                    {user.competence.map((domain,index) =>{
                       return <Text key={index}>
                          {domain}
                       </Text>
@@ -46,17 +58,16 @@ const UserHeroCard = (props) =>{
                          {domain}
                       </Text>
                     })}
-                </Container>
-                <Container>
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                        Availability
-                    </Text>
+                </Box>
+              </Flex>             
+                <Box width="100%">
+                    
                     <InlineWidget 
                      styles={{height: '400px'}} 
                      pageSettings={{
                         backgroundColor: 'ffffff',
-                        hideEventTypeDetails: false,
-                        hideLandingPageDetails: false,
+                        hideEventTypeDetails: true,
+                        hideLandingPageDetails: true,
                         primaryColor: '00a2ff',
                         textColor: '4d5055'
                       }}
@@ -70,10 +81,16 @@ const UserHeroCard = (props) =>{
                         ]
                       }}
                      url="https://calendly.com/meet-nicu/office-hours" />
-                </Container>
+                    {/* <Box width="100%" height="100%">
+                      <iframe
+                        width="100%" 
+                        height={400}
+                        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ISE7FiVmgezkfNvN3vo4lbbDhstrUoJIjSs2_qPOlF4xr802jGckXxJJAxuE1hVFIinK0pPFs"
+                      />
+                    </Box> */}
 
-              </Flex>
-            </Box>
+                </Box>
+            </Flex>
       </Center>
     )
 }
