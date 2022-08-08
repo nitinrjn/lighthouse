@@ -15,11 +15,11 @@ export default function Home() {
 
       <main>
         <Center height="800px" maxHeight="90%" minWidth="100%">
-          <Flex flexDir="column">
-            <Image
-              src={LightHouseLogo}
-              alt="Lighthouse Logo"
-            />
+          <Flex>
+              <Image
+                src={LightHouseLogo}
+                alt="Lighthouse Logo"
+              />
           </Flex>
 
         </Center>

@@ -22,10 +22,10 @@ const UserHeroCard = (props) =>{
 
     return (
         <Center margin="10px" >
-            <Flex p="5" borderRadius="sm"  minWidth="350px" maxWidth="1080px" boxShadow="lg"  borderWidth="1px">
+            <Flex p="5" borderRadius="md"  minWidth="350px" maxWidth="1080px" boxShadow="lg"  borderWidth="1px">
               <Flex  flexDirection="column" marginLeft="10px" alignItems="center" minWidth="350px">
                   <Flex alignItems="center" minWidth="350px">
-                    <Avatar size='xl' name='Nicu Parente' src='https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75' />
+                    <Avatar size='xl' name='Nicu Parente' src={user.profileImage} />
                     <Box marginLeft="10px">
                       <Heading size="lg"  lineHeight="short">
                         {user.firstName} {user.lastName}

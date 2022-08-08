@@ -11,7 +11,7 @@ const Mentors = (props) => {
         previousJob: [""],
         isMentor: true,
         signUpDate: Date.now().toLocaleString(),
-        profileImage: "https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75",
+        profileImage: "https://dsm01pap004files.storage.live.com/y4mLw1XEHlb1VQpHHoKor2qudDieb5_60Za4Fj1xPBWf3Xg0swI9Aev6qwM89CKupOPrgFXiupuVrvgD4yFWkh03xpYIWkmKTdfx7TbPMMYn-T9UUDqBc1EJkENzb6OaVqFiBi24y-3zmYogUIkE0ipo3iu1XE-pbqizszWb9oJapLUlsBOq2EGG0ZINZ3jhUrQ?width=599&height=610&cropmode=none",
         competence: ["Career Transitions", "Software Development", "Product Management"],
         acceptingMentees: true,
         community:[{

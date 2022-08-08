@@ -8,7 +8,7 @@ import {
   } from '@chakra-ui/react'
 import { useState } from 'react'
 
-import { AffinityTagsMeta } from '../../lib/constants'
+import { AFFINITY_TAGS_META } from '../../lib/constants'
 
 const AffinityTags = (props) =>{
     const {userAffinity} = props
@@ -17,7 +17,7 @@ const AffinityTags = (props) =>{
     const [isEditMode, setIsEditMode] = useState(false);
 
     return <Flex wrap={true}>
-      {AffinityTagsMeta.map(affinity => {
+      {AFFINITY_TAGS_META.map(affinity => {
         if(userAffinity[affinity.key]){
             return <Tag
             size="md"
