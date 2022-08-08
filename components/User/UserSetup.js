@@ -61,7 +61,7 @@ const UserSetup = (props) =>{
                         Affinity
                     </Text>
                     {AFFINITY_TAGS_META.map(affinity =>{
-                        return <Checkbox size={"lg"}>{affinity.affinityName}</Checkbox>
+                        return <Checkbox key={affinity.affinityName} size={"lg"}>{affinity.affinityName}</Checkbox>
                     })}
 
                     <Center >

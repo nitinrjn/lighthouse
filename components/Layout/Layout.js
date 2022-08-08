@@ -1,12 +1,16 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
-import { Center, Container } from '@chakra-ui/react'
+import { Box, Center, Container } from '@chakra-ui/react'
 
 export default function Layout({ children }) {
   return (
-    <Container width="100%" maxWidth="1440px">
+    <Container height="100%" width="100%" maxWidth="1440px">
         <Navbar />
-        <main>{children}</main>
+        <main>
+          <Center height="80vh">
+            {children}
+          </Center>
+        </main>
       <Footer />
     </Container>
   )

@@ -14,15 +14,12 @@ export default function Home() {
       </Head>
 
       <main>
-        <Center height="800px" maxHeight="90%" minWidth="100%">
           <Flex>
               <Image
                 src={LightHouseLogo}
                 alt="Lighthouse Logo"
               />
           </Flex>
-
-        </Center>
       </main>
       <footer></footer>
     </div>

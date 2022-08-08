@@ -34,7 +34,9 @@ const Navbar = (props) => {
             </NextLink>
             
             {isLoggedIn? 
-              <Avatar size='md' marginX="5px" name='Nicu Parente' src='https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75' />
+              <NextLink href="/setup">
+                <Avatar size='md' marginX="5px" name='Nicu Parente' />
+              </NextLink>
             :
               <Button marginX="5px" as="a" size="lg" variant="outline" colorScheme="yellow" onClick={(e) => {e.preventDefault();}}>
                 Login

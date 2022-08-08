@@ -22,7 +22,7 @@ const UserHeroCard = (props) =>{
 
     return (
         <Center margin="10px" >
-            <Flex p="5" borderRadius="md"  minWidth="350px" maxWidth="1080px" boxShadow="lg"  borderWidth="1px">
+            <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px">
               <Flex  flexDirection="column" marginLeft="10px" alignItems="center" minWidth="350px">
                   <Flex alignItems="center" minWidth="350px">
                     <Avatar size='xl' name='Nicu Parente' src={user.profileImage} />

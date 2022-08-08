@@ -4,7 +4,9 @@ import {
     TagLeftIcon,
     TagRightIcon,
     TagCloseButton,
-    Flex
+    Flex,
+    Wrap,
+    WrapItem
   } from '@chakra-ui/react'
 import { useState } from 'react'
 
@@ -16,10 +18,11 @@ const AffinityTags = (props) =>{
     console.log(userAffinity)
     const [isEditMode, setIsEditMode] = useState(false);
 
-    return <Flex wrap={true}>
+    return <Wrap>
       {AFFINITY_TAGS_META.map(affinity => {
         if(userAffinity[affinity.key]){
-            return <Tag
+            return <WrapItem>
+              <Tag
             size="md"
             borderRadius='md'
             variant='subtle'
@@ -29,12 +32,13 @@ const AffinityTags = (props) =>{
             <TagLabel>{affinity.affinityName}</TagLabel>
             {isEditMode? <TagCloseButton /> : ""}
           </Tag>
+            </WrapItem>
         }
         
         return <></>
       })}
 
-    </Flex>
+    </Wrap>
 }
 
 export default AffinityTags

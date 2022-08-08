@@ -21,7 +21,7 @@ export const UserSample = {
         woman: false,
         lgbtq: false,
         disabled: false,
-        minority:true
+        bipoc:true
     },
     industry: {
         aerospace: true,
