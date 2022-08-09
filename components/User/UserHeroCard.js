@@ -27,7 +27,7 @@ const UserHeroCard = (props) =>{
             <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px">
               <Flex  flexDirection="column" marginLeft="10px" minWidth="350px">
                   <Flex alignItems="center" minWidth="350px">
-                    <Avatar size='xl' name='Nicu Parente' src={user.profileImage} />
+                    <Avatar size='xl' name={`${user.firstName} ${user.lastName}`} src={user.profileImage} />
                     <Box marginLeft="10px">
                       <Heading size="lg"  lineHeight="short">
                         {user.firstName} {user.lastName}

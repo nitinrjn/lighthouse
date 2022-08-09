@@ -15,7 +15,7 @@ const Navbar = (props) => {
 
     return (
       <>
-          <Flex backgroundColor="" marginY="15px" minWidth="100%" alignItems="center">
+          <Flex backgroundColor="" marginTop="10px" minWidth="100%" alignItems="center">
             <NextLink href="/">
                 <Button colorScheme="yellow" fontWeight="bold" size="lg">
                   Lighthouse

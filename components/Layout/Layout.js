@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     <Container height="100%" width="100%" maxWidth="1440px">
         <Navbar />
         <main>
-          <Center height="80vh">
+          <Center marginTop="50px" minHeight="75vh">
             {children}
           </Center>
         </main>
