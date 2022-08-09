@@ -27,11 +27,11 @@ const Navbar = (props) => {
                 Mentors
               </Button>
             </NextLink>
-            <NextLink href="/guide">
+            {/* <NextLink href="/guide">
               <Button marginX="5px"  as="a" size="lg" variant="ghost" >
                 Guide
               </Button>
-            </NextLink>
+            </NextLink> */}
             
             {isLoggedIn? 
               <NextLink href="/setup">

@@ -1,12 +1,14 @@
-import { Center, Heading,Avatar, Stack, Text, Flex, Textarea, Select, Checkbox, Input, Button } from "@chakra-ui/react";
-import { AFFINITY_TAGS_META, JOB_TITLES } from "../../lib/constants";
+import { Center, Heading,Avatar, Text, Flex, Textarea, Select, Checkbox, Input, InputGroup, InputLeftAddon, Button } from "@chakra-ui/react";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
+import { AFFINITY_TAGS_META, JOB_TITLES, COMPETENCIES_LIST } from "../../lib/constants";
 import { UserSample } from "../../sample/UserSample";
 
 const UserSetup = (props) =>{
-   
+    
+    const router = useRouter();
     const user = UserSample;
-
 
     return <>
         <Center >
@@ -50,21 +52,35 @@ const UserSetup = (props) =>{
                      placeholder='Example: https://calendly.com/meet-nicu/office-hours'
                      />
                      
-                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                        Optional Info
-                    </Text>
-                    <Text>
-                        This information makes it easier for people to find individuals that have similar backgrounds to them   
-                    </Text>
-
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                        Affinity
+                        Affinity (Optional)
                     </Text>
                     {AFFINITY_TAGS_META.map(affinity =>{
                         return <Checkbox key={affinity.affinityName} size={"lg"}>{affinity.affinityName}</Checkbox>
                     })}
 
-                    <Center >
+                    {/* TODO: Add Competencies */}
+                    {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                        Select Top 10 Competencies
+                    </Text>
+                    <Flex justifyContent="space-between">
+                        <Input minWidth="200px"/>
+                        <Button marginLeft="10px">Select</Button>
+                    </Flex> */}
+
+                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                        Social Links
+                    </Text>
+                    <Flex marginY="10px"alignItems="center">
+                      <Text minWidth="20%">LinkedIn</Text>
+                      <Input  placeholder='https://www.linkedin.com/in/hello/' />
+                    </Flex>
+                    <Flex alignItems="center" >
+                        <Text minWidth="20%">Twitter</Text>
+                      <Input  placeholder='www.twitter.com/hello' />
+                    </Flex>
+
+                    <Center marginTop="20px" onClick={(e)=> {e.preventDefault(); router.push('/mentors') }}>
                         <Button colorScheme="yellow" width="200px">Save</Button>
                     </Center>
             </Flex>

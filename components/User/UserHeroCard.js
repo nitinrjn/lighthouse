@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Center,
   Flex,
   Badge,
@@ -8,7 +9,8 @@ import {
   Container,
   Heading
 } from "@chakra-ui/react";
-import {SiLinkedin} from "react-icons/si";
+
+import { FaLinkedin, FaTwitterSquare} from "react-icons/fa";
 
 import { InlineWidget } from 'react-calendly';
 
@@ -23,7 +25,7 @@ const UserHeroCard = (props) =>{
     return (
         <Center margin="10px" >
             <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px">
-              <Flex  flexDirection="column" marginLeft="10px" alignItems="center" minWidth="350px">
+              <Flex  flexDirection="column" marginLeft="10px" minWidth="350px">
                   <Flex alignItems="center" minWidth="350px">
                     <Avatar size='xl' name='Nicu Parente' src={user.profileImage} />
                     <Box marginLeft="10px">
@@ -37,11 +39,12 @@ const UserHeroCard = (props) =>{
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         About Me
                     </Text>
-                    <Text marginY="5px">
+                    <Text marginY="5px" mindWidth="350px">
                      {user.aboutMe}
                     </Text>
 
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                    {/* TODO: Add Competency View */}
+                    {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                       Area of Expertise 
                     </Text>
 
@@ -49,19 +52,27 @@ const UserHeroCard = (props) =>{
                       return <Text key={index}>
                          {domain}
                       </Text>
-                    })}
+                    })} */}
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                       Links 
                     </Text>
-                    {["www.linkedin.com/nicuparente", "www.nicuparente.com", "twitter.com/nicuparente"].map((domain,index) =>{
-                      return <Text key={index}>
-                         {domain}
-                      </Text>
-                    })}
+                    {user.socialLinks.twitter.url != '' ? 
+                      <Button colorScheme='twitter' size="lg" variant='ghost' leftIcon={<FaTwitterSquare />}>
+                        Twitter
+                      </Button>
+                    : ""  
+                    }
+
+                    {user.socialLinks.linkedIn.url != '' ? 
+                      <Button colorScheme='gray' size="lg" variant='ghost' leftIcon={<FaLinkedin />}>
+                        LinkedIn
+                      </Button>
+                    : ""  
+                    }
+
                 </Box>
               </Flex>             
                 <Box width="100%">
-                    
                     <InlineWidget 
                      styles={{height: '400px'}} 
                      pageSettings={{
@@ -72,13 +83,10 @@ const UserHeroCard = (props) =>{
                         textColor: '4d5055'
                       }}
                       prefill={{
-                        email: 'test@test.com',
-                        firstName: 'Jon',
-                        lastName: 'Snow',
-                        name: 'Jon Snow',
-                        guests: [
-                          'janedoe@example.com',
-                        ]
+                        email: user.email,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        name: `${user.firstName} ${user.lastName}`
                       }}
                      url="https://calendly.com/meet-nicu/office-hours" />
                     {/* <Box width="100%" height="100%">

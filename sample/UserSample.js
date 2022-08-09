@@ -1,7 +1,8 @@
 export const UserSample = {
     firstName: "Nicu",
     lastName: "Parente",
-    aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager.",
+    email:'nicuparente@gmail.com',
+    aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager. Prior to being in tech, I was a Grunt in the US Army for 10+ years combined from active duty and the National Guard.",
     currentJob: "",
     previousJob: [""], //optional
     isMentor: true, //optional
@@ -27,16 +28,14 @@ export const UserSample = {
         aerospace: true,
         technology: true
     },
-    socialLinks: [
-        {
-            type: "LinkedIn",
-            url: "www.linkedin.com/nicuparente"
-        },
-        {
-            type: "Twitter",
-            url: "www.twitter.com/nicuparente"
-        }
-    ],
+    socialLinks: {
+            linkedIn:{
+                url: "www.linkedin.com/nicuparente"
+            },
+            twitter: {
+                url: "www.twitter.com/nicuparente"
+            }
+    },
     calendar: {
         calendarType: "Calendly",
         externalLink: "https://calendly.com/meet-nicu/office-hours",
