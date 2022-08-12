@@ -15,7 +15,6 @@ import { AFFINITY_TAGS_META } from '../../lib/constants'
 const AffinityTags = (props) =>{
     const {userAffinity} = props
     
-    console.log(userAffinity)
     const [isEditMode, setIsEditMode] = useState(false);
 
     return <Wrap>

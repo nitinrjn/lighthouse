@@ -21,13 +21,13 @@ const Foooter = (props) =>{
                </NextLink>  
                
                <Button marginX="10px" color="yellow.300" variant="link" onClick={(e)=>{e.preventDefault(); router.push("https://github.com/nicuparente/lighthouse")}}>
-                   Contribute on GitHub!
+                   Open Source on GitHub!
                </Button>
            </Flex>
 
        </Center>
        <Text textColor="white" textAlign="center">
-                🚢 Lighthouse Connection
+                🚢 Lighthouse Mentorship
        </Text>
     </Box>
 }

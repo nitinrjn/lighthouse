@@ -1,6 +1,6 @@
 &nbsp;
 <p align="center">
-    <img src="./public/LightHouse-Mentorship-Logo.png" alt="Ghost" width="300px">
+    <img src="./public/Lighthouse-Connections-Logo.png" alt="Lighthouse Logo" width="300px">
 </p>
 &nbsp;
 
