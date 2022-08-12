@@ -5,7 +5,7 @@
 &nbsp;
 
 # Lighthouse 
-Lighthouse is an open mentorship platform that empowers communities to connect and find meaningful mentorship. 
+Lighthouse makes it easier to spark conversations with people from various backgrounds and to have meaningful conversations to share their unique experiences and insights. 
 
 <br/>
 Built using NextJS and Chakra UI

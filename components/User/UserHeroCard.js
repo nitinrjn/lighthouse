@@ -7,7 +7,8 @@ import {
   Badge,
   Text,
   Container,
-  Heading
+  Heading,
+  Spacer
 } from "@chakra-ui/react";
 
 import { FaLinkedin, FaTwitterSquare} from "react-icons/fa";
@@ -23,9 +24,9 @@ const UserHeroCard = (props) =>{
     const user = props.user;
 
     return (
-        <Center margin="10px" >
-            <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px">
-              <Flex  flexDirection="column" marginLeft="10px" minWidth="350px">
+        <Center margin="10px" width="100%">
+            <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" width="100%">
+              <Flex  flexDirection="column" marginLeft="10px" minWidth="350px" maxWidth="75%">
                   <Flex alignItems="center" minWidth="350px">
                     <Avatar size='xl' name={`${user.firstName} ${user.lastName}`} src={user.profileImage} />
                     <Box marginLeft="10px">
@@ -39,7 +40,7 @@ const UserHeroCard = (props) =>{
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         About Me
                     </Text>
-                    <Text marginY="5px" mindWidth="350px">
+                    <Text marginY="5px" mindWidth="350px" width="100%">
                      {user.aboutMe}
                     </Text>
 
@@ -71,33 +72,40 @@ const UserHeroCard = (props) =>{
                     }
 
                 </Box>
-              </Flex>             
-                <Box width="100%">
-                    <InlineWidget 
-                     styles={{height: '400px'}} 
-                     pageSettings={{
-                        backgroundColor: 'ffffff',
-                        hideEventTypeDetails: true,
-                        hideLandingPageDetails: true,
-                        primaryColor: '00a2ff',
-                        textColor: '4d5055'
-                      }}
-                      prefill={{
-                        email: user.email,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        name: `${user.firstName} ${user.lastName}`
-                      }}
-                     url="https://calendly.com/meet-nicu/office-hours" />
-                    {/* <Box width="100%" height="100%">
-                      <iframe
-                        width="100%" 
-                        height={400}
-                        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ISE7FiVmgezkfNvN3vo4lbbDhstrUoJIjSs2_qPOlF4xr802jGckXxJJAxuE1hVFIinK0pPFs"
-                      />
-                    </Box> */}
+              </Flex>  
+              <Spacer/>     
+                {user.calendar.calendarType == "Calendly" ?       
+                  <Box maxWidth="500px" width="100%" height="100%">
+                      <InlineWidget 
+                       styles={{height: '400px'}} 
+                       pageSettings={{
+                          backgroundColor: 'ffffff',
+                          hideEventTypeDetails: true,
+                          hideLandingPageDetails: true,
+                          primaryColor: '00a2ff',
+                          textColor: '4d5055'
+                        }}
+                        prefill={{
+                          email: user.email,
+                          firstName: user.firstName,
+                          lastName: user.lastName,
+                          name: `${user.firstName} ${user.lastName}`
+                        }}
+                       url={user.calendar.externalLink} />
 
-                </Box>
+                  </Box>
+                : ""}
+                { user.calendar.calendarType == "Google" ? 
+                  <Box  maxWidth="500px" width="100%" height="100%">
+                    <iframe
+                      width="100%" 
+                      height={400}
+                      src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ISE7FiVmgezkfNvN3vo4lbbDhstrUoJIjSs2_qPOlF4xr802jGckXxJJAxuE1hVFIinK0pPFs"
+                    />
+                  </Box> 
+                  :""
+                }
+                
             </Flex>
       </Center>
     )

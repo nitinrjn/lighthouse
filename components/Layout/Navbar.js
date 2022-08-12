@@ -22,9 +22,9 @@ const Navbar = (props) => {
                 </Button>
             </NextLink>
             <Spacer/>
-            <NextLink href="/mentors">
+            <NextLink href="/connect">
               <Button marginX="5px" size="lg" variant="ghost" >
-                Mentors
+                Connect
               </Button>
             </NextLink>
             {/* <NextLink href="/guide">

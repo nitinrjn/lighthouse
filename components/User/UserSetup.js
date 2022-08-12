@@ -80,7 +80,7 @@ const UserSetup = (props) =>{
                       <Input  placeholder='www.twitter.com/hello' />
                     </Flex>
 
-                    <Center marginTop="20px" onClick={(e)=> {e.preventDefault(); router.push('/mentors') }}>
+                    <Center marginTop="20px" onClick={(e)=> {e.preventDefault(); router.push('/connect') }}>
                         <Button colorScheme="yellow" width="200px">Save</Button>
                     </Center>
             </Flex>

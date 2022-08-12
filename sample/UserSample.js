@@ -37,6 +37,51 @@ export const UserSample = {
             }
     },
     calendar: {
+        calendarType: "Google",
+        externalLink: "https://calendar.app.google/nAszwHWx3tHYS8MY8",
+      },
+}
+
+
+export const UserSample2 = {
+    firstName: "Ricky",
+    lastName: "Bobby",
+    email:'first@notlastracing.com',
+    aboutMe: "I have raced for many years. I initially thought you always had to finish first but my dad told me second is also fine",
+    currentJob: "",
+    previousJob: [""], //optional
+    isMentor: true, //optional
+    signUpDate: Date.now().toLocaleString(),
+    profileImage: "https://pbs.twimg.com/profile_images/1264265275/Ricky_Bobby_closeup_400x400.jpg",
+    competence: ["Career Transitions", "Software Development", "Product Management"],
+    acceptingMentees: true, //optional
+    mentees: [],
+    community:[{
+        _id: "",
+        name: "MSSA"
+    }],
+    affinity: {
+        militaryVeteran: false,
+        noDegree: false,
+        immigrant: false,
+        woman: false,
+        lgbtq: false,
+        disabled: false,
+        bipoc:false
+    },
+    industry: {
+        aerospace: true,
+        technology: true
+    },
+    socialLinks: {
+            linkedIn:{
+                url: "www.linkedin.com/nicuparente"
+            },
+            twitter: {
+                url: "www.twitter.com/nicuparente"
+            }
+    },
+    calendar: {
         calendarType: "Calendly",
         externalLink: "https://calendly.com/meet-nicu/office-hours",
       },

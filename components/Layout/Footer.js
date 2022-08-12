@@ -27,7 +27,7 @@ const Foooter = (props) =>{
 
        </Center>
        <Text textColor="white" textAlign="center">
-                🚢 Lighthouse Mentorship
+                🚢 Lighthouse Connection
        </Text>
     </Box>
 }
