@@ -4,14 +4,15 @@ import {
   Flex, Heading, Spacer, useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+
 import { useState } from "react";
+import { useUser } from '@auth0/nextjs-auth0';
 
 
 
 const Navbar = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const isLoggedIn = true; //TODO: Check sign in
-    const [isSignShowing, setIsSignInShowing] = useState(false);
+    const {user, error, isLoading} = useUser(); //TODO: Check sign in
 
     return (
       <>
@@ -33,12 +34,12 @@ const Navbar = (props) => {
               </Button>
             </NextLink> */}
             
-            {isLoggedIn? 
+            {user? 
               <NextLink href="/setup">
-                <Avatar size='md' marginX="5px" name='Nicu Parente' />
+                <Avatar size='md' marginX="5px" name='Nicu Parente' src={user.picture} />
               </NextLink>
             :
-              <Button marginX="5px" as="a" size="lg" variant="outline" colorScheme="yellow" onClick={(e) => {e.preventDefault();}}>
+              <Button marginX="5px" as="a" size="lg" variant="outline" colorScheme="yellow" href="/api/auth/login">
                 Login
               </Button>
             }
