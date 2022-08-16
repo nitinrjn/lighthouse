@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+  firstName String  
+  lastName String
+  email String @unique
+  aboutMe String 
+  curretJobTitle String
+  mentor Boolean? @default(false)
+  joinedDate DateTime @default(now())
+  profileImage String
+  seekingMentorship Boolean? @default(false)
+  affinity String[]
+  industry String
+  linkedinLink String
+  twitterLink String?
+  calendarType Calendar
+  calendarLink String?
+}
+
+enum Calendar {
+  CALENDLY
+  GOOGLE
+}
