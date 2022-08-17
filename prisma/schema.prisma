@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -16,20 +17,31 @@ model User {
   lastName String
   email String @unique
   aboutMe String 
-  curretJobTitle String
+  currentJobTitle String
   mentor Boolean? @default(false)
   joinedDate DateTime @default(now())
   profileImage String
   seekingMentorship Boolean? @default(false)
   affinity String[]
-  industry String
+  industry Industry
   linkedinLink String
   twitterLink String?
-  calendarType Calendar
+  calendarType Calendar?
   calendarLink String?
+  publicProfile Boolean @default(false)
 }
 
 enum Calendar {
   CALENDLY
   GOOGLE
+}
+
+enum Industry {
+  AGRICULTURE
+  AVIATION
+  FOOD
+  HOSPITALITY
+  TECHNOLOGY
+  REAL_ESTATE
+  SALES
 }
