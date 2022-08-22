@@ -10,18 +10,16 @@ import {
   Heading,
   Spacer
 } from "@chakra-ui/react";
-
+import {UserProfile, Calendar} from "@prisma/client";
 import { FaLinkedin, FaTwitterSquare} from "react-icons/fa";
-
 import { InlineWidget } from 'react-calendly';
-
 
 import AffinityTags from "./AffinityTags";
 
 
 const UserHeroCard = (props) =>{
 
-    const user = props.user;
+    const user: UserProfile = props.user;
 
     return (
         <Center margin="10px" width="100%">
@@ -40,7 +38,7 @@ const UserHeroCard = (props) =>{
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         About Me
                     </Text>
-                    <Text marginY="5px" mindWidth="350px" width="100%">
+                    <Text marginY="5px" minWidth="350px" width="100%">
                      {user.aboutMe}
                     </Text>
 
@@ -57,14 +55,14 @@ const UserHeroCard = (props) =>{
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                       Links 
                     </Text>
-                    {user.socialLinks.twitter.url != '' ? 
+                    {user.twitterLink != '' ? 
                       <Button colorScheme='twitter' size="lg" variant='ghost' leftIcon={<FaTwitterSquare />}>
                         Twitter
                       </Button>
                     : ""  
                     }
 
-                    {user.socialLinks.linkedIn.url != '' ? 
+                    {user.linkedinLink != '' ? 
                       <Button colorScheme='gray' size="lg" variant='ghost' leftIcon={<FaLinkedin />}>
                         LinkedIn
                       </Button>
@@ -74,7 +72,7 @@ const UserHeroCard = (props) =>{
                 </Box>
               </Flex>  
               <Spacer/>     
-                {user.calendar.calendarType == "Calendly" ?       
+                {user.calendarType == Calendar.CALENDLY ?       
                   <Box maxWidth="500px" width="100%" height="100%">
                       <InlineWidget 
                        styles={{height: '400px'}} 
@@ -91,11 +89,11 @@ const UserHeroCard = (props) =>{
                           lastName: user.lastName,
                           name: `${user.firstName} ${user.lastName}`
                         }}
-                       url={user.calendar.externalLink} />
+                       url={user.calendarLink} />
 
                   </Box>
                 : ""}
-                { user.calendar.calendarType == "Google" ? 
+                { user.calendarType == Calendar.GOOGLE ? 
                   <Box  maxWidth="500px" width="100%" height="100%">
                     <iframe
                       width="100%" 

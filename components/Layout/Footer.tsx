@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 const Foooter = (props) =>{
     const router = useRouter();
-    return <Box marginTop="50px" backgroundColor="#1a202c" height="50vh" maxHeight="400px">
+    return <Box width="100%" marginTop="50px" backgroundColor="#1a202c" height="50vh" maxHeight="400px">
        <Divider/>
        <Center minWidth="100%">
            <Flex  alignItems="center" minHeight="100px" marginY="10px">
@@ -14,8 +14,8 @@ const Foooter = (props) =>{
                    </Button>
                </NextLink>
 
-               <NextLink marginX="10px" href="/resources">
-                   <Button variant="link" color="white">
+               <NextLink href="/resources">
+                   <Button marginX="10px" variant="link" color="white">
                        Resources 
                    </Button>
                </NextLink>  
@@ -27,7 +27,7 @@ const Foooter = (props) =>{
 
        </Center>
        <Text textColor="white" textAlign="center">
-                🚢 Lighthouse Mentorship
+                🚢 Lighthouse Connections
        </Text>
     </Box>
 }

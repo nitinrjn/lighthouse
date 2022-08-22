@@ -52,3 +52,8 @@ export const COMPETENCIES_LIST = [
     {label: 'Software Development', value:'softwareDevelopment'},
     {label: 'Venture Capital', value:'ventureCapital'},
 ]
+
+export const ABOUT_ME_META = {
+    MIN_LENGTH: 0,
+    MAX_LENGTH: 500
+}

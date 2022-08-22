@@ -11,7 +11,7 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model User {
+model UserProfile {
   id String @id @default(cuid())
   firstName String  
   lastName String

@@ -1,15 +1,72 @@
 import { Center, Heading,Avatar, Text, Flex, Textarea, Select, Checkbox, Input, InputGroup, InputLeftAddon, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useUser } from "@auth0/nextjs-auth0";
+import { Calendar, Industry, UserProfile } from "@prisma/client";
 
-import { AFFINITY_TAGS_META, JOB_TITLES, COMPETENCIES_LIST } from "../../lib/constants";
-import { UserSample } from "../../sample/UserSample";
+import { AFFINITY_TAGS_META, JOB_TITLES, ABOUT_ME_META } from "../../lib/constants";
+import { UserSample } from "../../prisma/sampleData";
 
-const UserSetup = (props) =>{
-    
+type UserProfileOverviewProps = {
+    profile?: UserProfile,
+    editMode?: Boolean,
+}
+
+
+const UserSetup = ({profile, editMode}: UserProfileOverviewProps) =>{
+    const [isEditMode, setIsEditMode] = useState<Boolean>(editMode);
+
+    const {user, error} = useUser();
     const router = useRouter();
-    const user = UserSample;
+    const [userProfile, setUserProfile] = useState<UserProfile>(profile);
 
+    //AboutMe Content
+    const [aboutMe, setAboutMe] = useState('')
+    const [isAboutMeValid, setIsAboutMeValid] = useState(false);
+    const [aboutMeLength, setAboutMeLength] = useState(0);
+
+
+    const handleAboutMeOnChange = (event) => {
+        const val = event.target.value;
+        setAboutMeLength(val.length);
+    
+        if(val.length <= ABOUT_ME_META.MAX_LENGTH && val.length >= ABOUT_ME_META.MIN_LENGTH ){
+          setIsAboutMeValid(true)
+        }else{
+           setIsAboutMeValid(false)
+        }
+        setAboutMe(event.target.value)
+      }
+
+    
+    const createUserProfile = () =>{
+        const result = fetch('/api/user', 
+        {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName: user.given_name,
+                lastName: user.family_name,
+                email: user.email,
+                aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager. Prior to being in tech, I was a Grunt in the US Army for 10+ years combined from active duty and the National Guard.",
+                currentJobTitle: "Product Manager",
+                profileImage: "https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75",
+                mentor: true,
+                seekingMentorship: true,
+                affinity: ["MilitaryVeteran"],
+                industry: Industry.TECHNOLOGY,
+                linkedinLink: "www.linkedin.com/nicuparente",
+                twitterLink: "www.twitter.com/nicuparente",
+                calendarType: Calendar.GOOGLE,
+                calendarLink: "https://calendar.app.google/nAszwHWx3tHYS8MY8",
+                joinedDate: undefined,
+                publicProfile: false
+            })
+        })
+    }
+    
     return <>
         <Center >
             <Flex flexDir={"column"} borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" padding="20px"  maxWidth="1080px">
@@ -17,18 +74,26 @@ const UserSetup = (props) =>{
                         <Heading size="lg">Account Setup</Heading>
                     </Center>
                     <Center marginTop="10px">
-                        <Avatar size='xl' name='Nicu Parente' src='https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75' />
+                        <Avatar size='xl' name={`${user.given_name} ${user.family_name}`} src={user.picture} />
                     </Center>
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Name
                     </Text>
-                    <Text>{user.firstName} {user.lastName}</Text>
+                    
+                    <Text>
+                        {`${user.given_name} ${user.family_name}`}
+                    </Text>
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         About Me
                     </Text>
-                    <Textarea minWidth="350px" placeholder='Give a short intro about yourself your background and what you do now.'/>
+                    <Textarea 
+                        minWidth="350px" 
+                        value={aboutMe} 
+                        isInvalid={!isAboutMeValid} 
+                        onChange={handleAboutMeOnChange}
+                        placeholder='Give a short intro about yourself your background and what you do now.'/>
                     
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Current Job Title
@@ -82,6 +147,9 @@ const UserSetup = (props) =>{
 
                     <Center marginTop="20px" onClick={(e)=> {e.preventDefault(); router.push('/connect') }}>
                         <Button colorScheme="yellow" width="200px">Save</Button>
+                    </Center>
+                    <Center marginTop="20px" onClick={createUserProfile}>
+                        <Button colorScheme="yellow" width="200px">create</Button>
                     </Center>
             </Flex>
         </Center>

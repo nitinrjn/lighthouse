@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const { UserSample } = require('./sampleData.ts');
+const { UserSample } = require('./sampleData.js');
 const prisma = new PrismaClient();
 
 const load = async () => {

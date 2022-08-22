@@ -18,7 +18,7 @@ const AffinityTags = (props) =>{
     const [isEditMode, setIsEditMode] = useState(false);
 
     return <Wrap>
-      {AFFINITY_TAGS_META.map(affinity => {
+      {/* {AFFINITY_TAGS_META.map(affinity => {
         if(userAffinity[affinity.key]){
             return <WrapItem>
               <Tag
@@ -35,7 +35,7 @@ const AffinityTags = (props) =>{
         }
         
         return <></>
-      })}
+      })} */}
 
     </Wrap>
 }

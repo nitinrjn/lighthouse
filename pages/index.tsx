@@ -7,21 +7,18 @@ import LightHouseLogo from '../public/Lighthouse-Connections-Logo.png'
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Head>
         <title>Lighthouse</title>
         <meta name="description" content="Nicu Parente" />
       </Head>
 
-      <main>
-          <Flex>
-              <Image
-                src={LightHouseLogo}
-                alt="Lighthouse Logo"
-              />
-          </Flex>
-      </main>
-      <footer></footer>
-    </div>
+      <Flex>
+          <Image
+            src={LightHouseLogo}
+            alt="Lighthouse Logo"
+          />
+      </Flex>
+    </>
   );
 }

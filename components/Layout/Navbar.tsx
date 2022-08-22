@@ -16,7 +16,7 @@ const Navbar = (props) => {
 
     return (
       <>
-          <Flex backgroundColor="" marginTop="10px" minWidth="100%" alignItems="center">
+          <Flex maxWidth="1440px" width="100%" backgroundColor="" marginTop="20px"  alignItems="center">
             <NextLink href="/">
                 <Button colorScheme="yellow" fontWeight="bold" size="lg">
                   Lighthouse
@@ -33,16 +33,16 @@ const Navbar = (props) => {
                 Guide
               </Button>
             </NextLink> */}
-            
-            {user? 
-              <NextLink href="/setup">
-                <Avatar size='md' marginX="5px" name='Nicu Parente' src={user.picture} />
-              </NextLink>
-            :
-              <Button marginX="5px" as="a" size="lg" variant="outline" colorScheme="yellow" href="/api/auth/login">
-                Login
-              </Button>
-            }
+            <NextLink href="/profile">
+              {user? 
+                  <Avatar size='md' marginX="5px" name='Nicu Parente' src={user.picture} />
+              :
+                <Button marginX="5px" as="a" size="lg" variant="outline" colorScheme="yellow">
+                  Login
+                </Button>
+              }
+            </NextLink>
+
           </Flex>
       </>
     );

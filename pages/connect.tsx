@@ -2,13 +2,9 @@ import { Center, Flex, Heading } from "@chakra-ui/react";
 import UserHeroCard from "../components/User/UserHeroCard";
 
 // TODO: Remove once real data is available
-import { UserSample, UserSample2 } from "../sample/UserSample";
+import { UserSample } from "../prisma/sampleData";
 
 const Connect = (props) => {
-
-    const user = UserSample;
-
-
 
     return <>
         <Flex 
@@ -21,8 +17,7 @@ const Connect = (props) => {
                 <Heading>Lets spark some conversations. </Heading>
             </Center>
             {/* TODO: iterate through mentors */}
-            <UserHeroCard user={user}/>
-            <UserHeroCard user={UserSample2}/>
+            <UserHeroCard user={UserSample}/>
         </Flex>
     </>
 }
