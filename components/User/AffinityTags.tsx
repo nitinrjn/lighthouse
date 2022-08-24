@@ -10,7 +10,7 @@ import {
   } from '@chakra-ui/react'
 import { useState } from 'react'
 
-import { AFFINITY_TAGS_META } from '../../lib/constants'
+import { AFFINITY_TAGS_META } from '../../lib/util/constants'
 
 const AffinityTags = (props) =>{
     const {userAffinity} = props

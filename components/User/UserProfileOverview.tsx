@@ -1,10 +1,10 @@
-import { Center, Heading,Avatar, Text, Flex, Textarea, Select, Checkbox, Input, InputGroup, InputLeftAddon, Button } from "@chakra-ui/react";
+import { Center, Heading,Avatar, Text, Flex, Textarea, Select, Checkbox, Input, InputGroup, InputLeftAddon, Button, FormControl, FormLabel } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Calendar, Industry, UserProfile } from "@prisma/client";
 
-import { AFFINITY_TAGS_META, JOB_TITLES, ABOUT_ME_META } from "../../lib/constants";
+import { AFFINITY_TAGS_META, JOB_TITLES, ABOUT_ME_META } from "../../lib/util/constants";
 import { UserSample } from "../../prisma/sampleData";
 
 type UserProfileOverviewProps = {
@@ -13,12 +13,13 @@ type UserProfileOverviewProps = {
 }
 
 
-const UserSetup = ({profile, editMode}: UserProfileOverviewProps) =>{
-    const [isEditMode, setIsEditMode] = useState<Boolean>(editMode);
+const UserSetup = ({profile}: UserProfileOverviewProps) =>{
 
     const {user, error} = useUser();
     const router = useRouter();
     const [userProfile, setUserProfile] = useState<UserProfile>(profile);
+
+    const [isEditMode, setIsEditMode] = useState<Boolean>(userProfile == undefined ? true : false);
 
     //AboutMe Content
     const [aboutMe, setAboutMe] = useState('')
@@ -39,8 +40,12 @@ const UserSetup = ({profile, editMode}: UserProfileOverviewProps) =>{
       }
 
     
-    const createUserProfile = () =>{
-        const result = fetch('/api/user', 
+    const createUserProfile = async () =>{
+
+
+        //Validate Info 
+        
+        const response = await fetch('/api/user', 
         {
             method:'POST',
             headers: {
@@ -52,7 +57,7 @@ const UserSetup = ({profile, editMode}: UserProfileOverviewProps) =>{
                 email: user.email,
                 aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager. Prior to being in tech, I was a Grunt in the US Army for 10+ years combined from active duty and the National Guard.",
                 currentJobTitle: "Product Manager",
-                profileImage: "https://www.nicuparente.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNicu-Headshot.1b9be0ae.jpg&w=828&q=75",
+                profileImage: user.picture,
                 mentor: true,
                 seekingMentorship: true,
                 affinity: ["MilitaryVeteran"],
@@ -65,6 +70,9 @@ const UserSetup = ({profile, editMode}: UserProfileOverviewProps) =>{
                 publicProfile: false
             })
         })
+
+        const body = await response.json()
+
     }
     
     return <>
@@ -85,16 +93,17 @@ const UserSetup = ({profile, editMode}: UserProfileOverviewProps) =>{
                         {`${user.given_name} ${user.family_name}`}
                     </Text>
 
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                        About Me
-                    </Text>
-                    <Textarea 
+                    <FormControl>
+                        <FormLabel>About Me</FormLabel>
+                        <Textarea 
                         minWidth="350px" 
                         value={aboutMe} 
                         isInvalid={!isAboutMeValid} 
                         onChange={handleAboutMeOnChange}
                         placeholder='Give a short intro about yourself your background and what you do now.'/>
                     
+                    </FormControl>
+
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Current Job Title
                     </Text>

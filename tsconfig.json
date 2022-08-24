@@ -16,5 +16,5 @@
       "incremental": true
     },
     "exclude": ["node_modules"],
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "prisma/sampleData.js", "prisma/seed.js", "lib/constants.js", "components/User/AffinityTags.js", "components/User/UserHeroCard.js", "components/User/UserSetup.js"]
 }

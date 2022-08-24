@@ -11,8 +11,6 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const Setup = () =>{
     const { data: user, isValidating, error } = useSWR('/api/user', fetcher);
-
-    console.log(user)
     
     return <>   
            <UserProfileOverview />
