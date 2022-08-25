@@ -22,7 +22,7 @@ const UserHeroCard = (props) =>{
     const user: UserProfile = props.user;
 
     return (
-        <Center margin="10px" width="100%">
+        <Center marginY="10px" width="100%">
             <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" width="100%">
               <Flex  flexDirection="column" marginLeft="10px" minWidth="350px" maxWidth="75%">
                   <Flex alignItems="center" minWidth="350px">

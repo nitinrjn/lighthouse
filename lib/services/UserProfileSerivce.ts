@@ -1,7 +1,7 @@
 import prisma from "../util/prisma";
 import { UserProfile } from "@prisma/client";
 
-class UserProfileResult {
+export class UserProfileResult {
     userProfile: UserProfile = null;
     success: boolean = false; 
     error: string = "";

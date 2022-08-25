@@ -1,10 +1,14 @@
-import { Center, Flex, Heading } from "@chakra-ui/react";
+import { Center, Flex, Heading, CircularProgress } from "@chakra-ui/react";
 import UserHeroCard from "../components/User/UserHeroCard";
+import useSWR from 'swr';
 
-// TODO: Remove once real data is available
 import { UserSample } from "../prisma/sampleData";
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 const Connect = (props) => {
+
+    const { data: userConnections, isValidating, error } = useSWR('/api/connections', fetcher);
 
     return <>
         <Flex 
@@ -16,8 +20,18 @@ const Connect = (props) => {
             <Center marginY="20px">
                 <Heading>Lets spark some conversations. </Heading>
             </Center>
-            {/* TODO: iterate through mentors */}
-            <UserHeroCard user={UserSample}/>
+            
+            {isValidating ? 
+                <Center>
+                    <CircularProgress  isIndeterminate color='yellow.500'/> 
+                </Center>
+                :
+                userConnections.userProfiles.map( (userProfile, index) =>{
+                    return <UserHeroCard user={userProfile} key={userProfile.id}/>
+                })
+            }
+
+            {}
         </Flex>
     </>
 }

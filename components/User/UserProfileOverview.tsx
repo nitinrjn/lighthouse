@@ -54,7 +54,7 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
             body: JSON.stringify({
                 firstName: user.given_name,
                 lastName: user.family_name,
-                email: user.email,
+                email: "nicupaaaaaaraente@gmail.com",
                 aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager. Prior to being in tech, I was a Grunt in the US Army for 10+ years combined from active duty and the National Guard.",
                 currentJobTitle: "Product Manager",
                 profileImage: user.picture,
@@ -65,9 +65,9 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                 linkedinLink: "www.linkedin.com/nicuparente",
                 twitterLink: "www.twitter.com/nicuparente",
                 calendarType: Calendar.GOOGLE,
-                calendarLink: "https://calendar.app.google/nAszwHWx3tHYS8MY8",
+                calendarLink: "https://calendly.com/meet-nicu/office-hours",
                 joinedDate: undefined,
-                publicProfile: false
+                publicProfile: true
             })
         })
 
