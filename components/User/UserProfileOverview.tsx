@@ -1,11 +1,15 @@
-import { Center, Heading,Avatar, Text, Flex, Textarea, Select, Checkbox, Input, InputGroup, InputLeftAddon, Button, FormControl, FormLabel } from "@chakra-ui/react";
+import { Center, Heading,Avatar, Text,Box, Flex, Textarea, Select, Checkbox, Input, InputGroup, InputLeftAddon, Button, FormControl, FormLabel,  Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon, } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Calendar, Industry, UserProfile } from "@prisma/client";
+import { pascalCase } from "pascal-case";
 
-import { AFFINITY_TAGS_META, JOB_TITLES, ABOUT_ME_META } from "../../lib/util/constants";
-import { UserSample } from "../../prisma/sampleData";
+import { AFFINITY_TAGS_META, JOB_TITLES, ABOUT_ME_META, CHAT_TOPICS } from "../../lib/util/constants";
 
 type UserProfileOverviewProps = {
     profile?: UserProfile,
@@ -17,7 +21,25 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
 
     const {user, error} = useUser();
     const router = useRouter();
-    const [userProfile, setUserProfile] = useState<UserProfile>(profile);
+    const [userProfile, setUserProfile] = useState<UserProfile>({
+        firstName: user.given_name,
+        lastName: user.family_name,
+        email: "nicupaaaaaaraente@gmail.com",
+        aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager. Prior to being in tech, I was a Grunt in the US Army for 10+ years combined from active duty and the National Guard.",
+        currentJobTitle: "Product Manager",
+        profileImage: user.picture,
+        mentor: true,
+        seekingMentorship: true,
+        affinity: ["MilitaryVeteran"],
+        chatTopics: ["CareerTransition",],
+        industry: Industry.Technology,
+        linkedinLink: "www.linkedin.com/nicuparente",
+        twitterLink: "www.twitter.com/nicuparente",
+        calendarType: Calendar.Google,
+        calendarLink: "https://calendly.com/meet-nicu/office-hours",
+        joinedDate: undefined,
+        publicProfile: true
+    });
 
     const [isEditMode, setIsEditMode] = useState<Boolean>(userProfile == undefined ? true : false);
 
@@ -51,24 +73,7 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                firstName: user.given_name,
-                lastName: user.family_name,
-                email: "nicupaaaaaaraente@gmail.com",
-                aboutMe: "I have over 8+ years of experience working in big tech companies as a software engineer and product manager. Prior to being in tech, I was a Grunt in the US Army for 10+ years combined from active duty and the National Guard.",
-                currentJobTitle: "Product Manager",
-                profileImage: user.picture,
-                mentor: true,
-                seekingMentorship: true,
-                affinity: ["MilitaryVeteran"],
-                industry: Industry.TECHNOLOGY,
-                linkedinLink: "www.linkedin.com/nicuparente",
-                twitterLink: "www.twitter.com/nicuparente",
-                calendarType: Calendar.GOOGLE,
-                calendarLink: "https://calendly.com/meet-nicu/office-hours",
-                joinedDate: undefined,
-                publicProfile: true
-            })
+            body: JSON.stringify(userProfile)
         })
 
         const body = await response.json()
@@ -76,13 +81,16 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
     }
     
     return <>
-        <Center >
+        <Center width="100%" maxWidth="1080px">
             <Flex flexDir={"column"} borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" padding="20px"  maxWidth="1080px">
                     <Center>
                         <Heading size="lg">Account Setup</Heading>
                     </Center>
                     <Center marginTop="10px">
                         <Avatar size='xl' name={`${user.given_name} ${user.family_name}`} src={user.picture} />
+                    </Center>
+                    <Center marginTop="10px">
+                        <Button onClick={createUserProfile}  width="150px">Logout</Button>
                     </Center>
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
@@ -93,7 +101,7 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                         {`${user.given_name} ${user.family_name}`}
                     </Text>
 
-                    <FormControl>
+                    <FormControl marginTop="10px">
                         <FormLabel>About Me</FormLabel>
                         <Textarea 
                         minWidth="350px" 
@@ -111,10 +119,10 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                         {JOB_TITLES.map(jobTitle => <option key={jobTitle} value={jobTitle}>{jobTitle}</option>)}
                     </Select>
 
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                    {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Would you like to be listed as a mentor?
                     </Text>
-                    <Checkbox>Yes, I am a mentor. </Checkbox>
+                    <Checkbox>Yes, I am a mentor. </Checkbox> */}
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Booking Link
@@ -126,21 +134,22 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                      placeholder='Example: https://calendly.com/meet-nicu/office-hours'
                      />
                      
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                    {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Affinity (Optional)
-                    </Text>
-                    {AFFINITY_TAGS_META.map(affinity =>{
+                    </Text> */}
+                    {/* {AFFINITY_TAGS_META.map(affinity =>{
                         return <Checkbox key={affinity.affinityName} size={"lg"}>{affinity.affinityName}</Checkbox>
-                    })}
+                    })} */}
 
                     {/* TODO: Add Competencies */}
-                    {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                        Select Top 10 Competencies
+                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                        Choose up to 10 Topics
                     </Text>
-                    <Flex justifyContent="space-between">
-                        <Input minWidth="200px"/>
-                        <Button marginLeft="10px">Select</Button>
-                    </Flex> */}
+                    <Select placeholder="Choose a topic">
+                        {CHAT_TOPICS.map((chatTopic) =>{
+                            return <option value={pascalCase(chatTopic)}>{chatTopic}</option>
+                        })}
+                    </Select>
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Social Links
@@ -154,12 +163,29 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                       <Input  placeholder='www.twitter.com/hello' />
                     </Flex>
 
-                    <Center marginTop="20px" onClick={(e)=> {e.preventDefault(); router.push('/connect') }}>
-                        <Button colorScheme="yellow" width="200px">Save</Button>
-                    </Center>
-                    <Center marginTop="20px" onClick={createUserProfile}>
-                        <Button colorScheme="yellow" width="200px">create</Button>
-                    </Center>
+                    <Flex marginY="20px" width="100%" justifyContent="space-around">
+                        <Button onClick={createUserProfile} colorScheme="yellow" width="150px">Save</Button>
+                    </Flex>
+                    
+                    <Accordion color="red.500" allowToggle>
+                        <AccordionItem>
+                          <h2>
+                            <AccordionButton>
+                              <Box  flex='1' textAlign='left'>
+                                Delete Account
+                              </Box>
+                              <AccordionIcon />
+                            </AccordionButton>
+                          </h2>
+                          <AccordionPanel>
+                            <Flex flexDir="column" alignItems="center" width="100%" height={"100px"} justifyContent="space-around" >
+                                <Text >Warning: All your data will be lost when you delete your account</Text>
+                                <Button variant="outline" width="200px" onClick={(e) => {e.preventDefault}} colorScheme="red">Delete Account</Button>
+                            </Flex>
+                          </AccordionPanel>
+                        </AccordionItem>
+                    </Accordion>
+
             </Flex>
         </Center>
     </>

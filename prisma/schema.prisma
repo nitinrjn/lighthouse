@@ -6,42 +6,55 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model UserProfile {
-  id String @id @default(cuid())
-  firstName String  
-  lastName String
-  email String @unique
-  aboutMe String 
-  currentJobTitle String
-  mentor Boolean? @default(false)
-  joinedDate DateTime @default(now())
-  profileImage String
-  seekingMentorship Boolean? @default(false)
-  affinity String[]
-  industry Industry
-  linkedinLink String
-  twitterLink String?
-  calendarType Calendar?
-  calendarLink String?
-  publicProfile Boolean @default(false)
+  id                String    @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String    @unique
+  aboutMe           String
+  currentJobTitle   String
+  mentor            Boolean?  @default(false)
+  joinedDate        DateTime  @default(now())
+  profileImage      String
+  seekingMentorship Boolean?  @default(false)
+  affinity          String[]
+  industry          Industry
+  chatTopics        Topics[]
+  linkedinLink      String
+  twitterLink       String?
+  calendarType      Calendar?
+  calendarLink      String?
+  publicProfile     Boolean   @default(false)
 }
 
 enum Calendar {
-  CALENDLY
-  GOOGLE
+  Calendly
+  Google
 }
 
 enum Industry {
-  AGRICULTURE
-  AVIATION
-  FOOD
-  HOSPITALITY
-  TECHNOLOGY
-  REAL_ESTATE
-  SALES
+  Agriculture
+  Aviation
+  Food
+  Hospitality
+  Technology
+  RealEstate
+  Sales
+}
+
+enum Topics {
+  CareerTransition
+  CareerBreak
+  Entrepreneurship
+  Marketing
+  PersonalFinance
+  PersonalBranding
+  Podcasting
+  ShareStories
+  SOFTWARE_DEVELOPMENT
 }

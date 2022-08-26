@@ -1,6 +1,8 @@
 import {
   Avatar,
+  Box,
   Button,
+  Center,
   Flex, Heading, Spacer, useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
@@ -15,8 +17,10 @@ const Navbar = (props) => {
     const {user, error, isLoading} = useUser(); //TODO: Check sign in
 
     return (
-      <>
-          <Flex maxWidth="1440px" width="100%" backgroundColor="" marginTop="20px"  alignItems="center">
+      <Box width="100%" backgroundColor="#1a202c"maxHeight="400px">
+
+         <Center>
+         <Flex padding="10px" maxWidth="1440px" width="100%" alignItems="center">
             <NextLink href="/">
                 <Button colorScheme="yellow" fontWeight="bold" size="lg">
                   Lighthouse
@@ -24,7 +28,7 @@ const Navbar = (props) => {
             </NextLink>
             <Spacer/>
             <NextLink href="/connect">
-              <Button marginX="5px" size="lg" variant="ghost" >
+              <Button marginX="20px" size="lg" variant="ghost" colorScheme="whiteAlpha" color="white" >
                 Connect
               </Button>
             </NextLink>
@@ -42,9 +46,9 @@ const Navbar = (props) => {
                 </Button>
               }
             </NextLink>
-
-          </Flex>
-      </>
+          </Flex> 
+         </Center>
+      </Box>
     );
   };
 

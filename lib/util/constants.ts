@@ -44,13 +44,14 @@ export const JOB_TITLES = [
     'User Experience Designer'
 ] 
 
-export const COMPETENCIES_LIST = [
-    {label:'Career Transition', value:''},
-    {label: 'Marketing', value:'marketing'},
-    {label: 'Medicine', value:'marketing'},
-    {label: 'Product Management', value:'productManagement'},
-    {label: 'Software Development', value:'softwareDevelopment'},
-    {label: 'Venture Capital', value:'ventureCapital'},
+export const CHAT_TOPICS = [
+    'Career Transitioning',
+    'Career Breaks',   
+    'Entrepreneurship',
+    'Marketing',
+    'Personal Finance',
+    'Personal Branding',
+    'Software Development',
 ]
 
 export const ABOUT_ME_META = {

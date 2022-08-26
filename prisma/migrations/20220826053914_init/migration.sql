@@ -1,11 +1,14 @@
 -- CreateEnum
-CREATE TYPE "Calendar" AS ENUM ('CALENDLY', 'GOOGLE');
+CREATE TYPE "Calendar" AS ENUM ('Calendly', 'Google');
 
 -- CreateEnum
-CREATE TYPE "Industry" AS ENUM ('AGRICULTURE', 'AVIATION', 'FOOD', 'HOSPITALITY', 'TECHNOLOGY', 'REAL_ESTATE', 'SALES');
+CREATE TYPE "Industry" AS ENUM ('Agriculture', 'Aviation', 'Food', 'Hospitality', 'Technology', 'RealEstate', 'Sales');
+
+-- CreateEnum
+CREATE TYPE "Topics" AS ENUM ('CareerTransition', 'CareerBreak', 'Entrepreneurship', 'Marketing', 'PersonalFinance', 'PersonalBranding', 'Podcasting', 'ShareStories', 'SOFTWARE_DEVELOPMENT');
 
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "UserProfile" (
     "id" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
@@ -18,14 +21,15 @@ CREATE TABLE "User" (
     "seekingMentorship" BOOLEAN DEFAULT false,
     "affinity" TEXT[],
     "industry" "Industry" NOT NULL,
+    "chatTopics" "Topics"[],
     "linkedinLink" TEXT NOT NULL,
     "twitterLink" TEXT,
     "calendarType" "Calendar",
     "calendarLink" TEXT,
     "publicProfile" BOOLEAN NOT NULL DEFAULT false,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "UserProfile_email_key" ON "UserProfile"("email");
