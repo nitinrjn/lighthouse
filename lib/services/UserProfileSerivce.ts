@@ -1,5 +1,6 @@
 import prisma from "../util/prisma";
 import { UserProfile } from "@prisma/client";
+var AuthenticationClient = require('auth0').AuthenticationClient;
 
 export class UserProfileResult {
     userProfile: UserProfile = null;
@@ -20,13 +21,12 @@ export const getUserByEmail = async (email:string) =>{
     }
     catch(e){
         result.error = e.code
-
     }
 
     return result;
 }
 
-export const createUser = async (userProfile: UserProfile) =>{
+export const createOrUpdateUser = async (userProfile: UserProfile) =>{
     const result: UserProfileResult = new UserProfileResult();
 
     try{
@@ -36,7 +36,7 @@ export const createUser = async (userProfile: UserProfile) =>{
         result.success = result.userProfile != null ? true : false;
     }
     catch(e){
-        console.log(`ERROR encountered PrismaCode=${e.code}`);
+        console.log(`ERROR encountered PrismaCode=${e}`);
         result.error = e.code
     }
     finally{

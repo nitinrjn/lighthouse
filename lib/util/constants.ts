@@ -38,6 +38,8 @@ export const AFFINITY_TAGS_META = [
 
 export const JOB_TITLES = [
     'Business Analyst',
+    'Career Transitioner',
+    'Military Spouse',
     'Product Manager',
     'Program Manager',
     'Software Developer',

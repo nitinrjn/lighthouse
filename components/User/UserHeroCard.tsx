@@ -8,18 +8,21 @@ import {
   Text,
   Container,
   Heading,
-  Spacer
+  Spacer,
+  Checkbox
 } from "@chakra-ui/react";
 import {UserProfile, Calendar} from "@prisma/client";
 import { FaLinkedin, FaTwitterSquare} from "react-icons/fa";
 import { InlineWidget } from 'react-calendly';
 import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from 'next/router'
 
 import AffinityTags from "./AffinityTags";
 
 
 const UserHeroCard = (props) =>{
-     const {user, error} = useUser();
+    const {user, error} = useUser();
+    const router = useRouter();
 
     const connectionProfile: UserProfile = props.user;
 
@@ -44,33 +47,42 @@ const UserHeroCard = (props) =>{
                      {connectionProfile.aboutMe}
                     </Text>
 
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                        Lets Chat About
-                    </Text>
-                    <Text marginY="5px" minWidth="350px" width="90%">
-                      Thing 1
-                    </Text>
-                    <Text marginY="5px" minWidth="350px" width="90%">
-                      Thing 2
-                    </Text>
+                    {/* TODO: Add to chat about topics */}
+                    {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                        Let's Chat About 
+                    </Text> */}
 
                     <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                       Links 
                     </Text>
                     {connectionProfile.twitterLink != '' ? 
-                      <Button colorScheme='twitter' size="lg" variant='ghost' leftIcon={<FaTwitterSquare />}>
+                      <Button 
+                        as="a" 
+                        target="_blank" 
+                        onClick={(e)=>{e.preventDefault(); 
+                        router.push(`https://www.twitter.com/${connectionProfile.twitterLink}`)}} 
+                        colorScheme='twitter' 
+                        size="lg" 
+                        variant='link' leftIcon={<FaTwitterSquare />}>
                         Twitter
                       </Button>
                     : ""  
                     }
 
                     {connectionProfile.linkedinLink != '' ? 
-                      <Button colorScheme='gray' size="lg" variant='ghost' leftIcon={<FaLinkedin />}>
+                      <Button 
+                        as="a" 
+                        target="_blank" 
+                        onClick={(e)=>{e.preventDefault(); router.push(`https://www.linkedin.com/in/${connectionProfile.linkedinLink}`)}} 
+                        colorScheme='gray' 
+                        size="lg" 
+                        variant='link' 
+                        marginX="10px"
+                        leftIcon={<FaLinkedin />}>
                         LinkedIn
                       </Button>
                     : ""  
                     }
-
                 </Box>
               </Flex>  
               <Spacer/>     

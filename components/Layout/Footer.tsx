@@ -4,10 +4,9 @@ import { useRouter } from 'next/router'
 
 const Foooter = (props) =>{
     const router = useRouter();
-    return <Box width="100%" marginTop="50px" backgroundColor="#1a202c" height="50vh" maxHeight="400px">
-       <Divider/>
+    return <Box width="100%" marginTop="50px" backgroundColor="#1a202c" height="20vh" >
        <Center minWidth="100%">
-           <Flex  alignItems="center" minHeight="100px" marginY="10px">
+           <Flex  alignItems="center" minHeight="100px">
                <NextLink href="/about">
                    <Button marginX="10px" variant="link" color="white">
                        About  
