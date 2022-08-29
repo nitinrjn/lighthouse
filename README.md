@@ -16,13 +16,13 @@ Lighthouse makes it easier for people from various backgrounds to spark meaningf
 - Auth0
 
 # Setup
-## Requirements
+**Requirements**
 - NodeJS > 16 LTS 
 - Auth0 Account
 - Postgres DB
 
-## Authentication
-Lighthouse uses Auth0 for user authentication. You can follow the (Auth0 Setup for NextJs)[https://auth0.com/docs/quickstart/webapp/nextjs/interactive] documentation
+**Auth 0 and Authentication**
+Lighthouse uses Auth0 for user authentication. You can follow the https://auth0.com/docs/quickstart/webapp/nextjs/interactive documentation
 
 # Copyright & License
 Copyright (c) 2022 Nicu Parente - Released under the [MIT License](./LICENSE).
