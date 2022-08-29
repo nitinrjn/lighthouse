@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession, Session, UserProfile } from '@auth0/nextjs-auth0';
 
-import { createUser, deleteUser, getUserByEmail , updateUser, UserProfileResult  } from "../../lib/services/UserProfileSerivce";
+import { createOrUpdateUser, deleteUser, getUserByEmail , updateUser, UserProfileResult  } from "../../lib/services/UserProfileSerivce";
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     const session: Session = getSession(req,res);
@@ -12,7 +12,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     }
 
     if(req.method === "POST"){
-        const result = await createUser(req.body)
+        const result = await createOrUpdateUser(req.body)
         return res.status(200).json(result);
     }
 

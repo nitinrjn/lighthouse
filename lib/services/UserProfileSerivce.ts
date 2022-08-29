@@ -29,9 +29,14 @@ export const getUserByEmail = async (email:string) =>{
 export const createOrUpdateUser = async (userProfile: UserProfile) =>{
     const result: UserProfileResult = new UserProfileResult();
 
+    
     try{
-        result.userProfile = await prisma.userProfile.create({
-            data: {...userProfile}
+        result.userProfile = await prisma.userProfile.upsert({
+            create: {...userProfile},
+            update: {...userProfile},
+            where: {
+                email: userProfile.email
+            }
         })
         result.success = result.userProfile != null ? true : false;
     }

@@ -19,13 +19,12 @@ model UserProfile {
   aboutMe           String
   currentJobTitle   String
   mentor            Boolean?  @default(false)
-  joinedDate        DateTime  @default(now())
   profileImage      String
   seekingMentorship Boolean?  @default(false)
   affinity          String[]
-  industry          Industry
+  industry          Industry?
   chatTopics        Topics[]
-  linkedinLink      String
+  linkedinLink      String?
   twitterLink       String?
   calendarType      Calendar?
   calendarLink      String?

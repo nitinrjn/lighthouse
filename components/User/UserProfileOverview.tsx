@@ -2,7 +2,9 @@ import { Center, Heading,Avatar, Text,Box, Flex, Textarea, Select, Checkbox, Inp
     AccordionItem,
     AccordionButton,
     AccordionPanel,
-    AccordionIcon, } from "@chakra-ui/react";
+    AccordionIcon,
+    VStack,
+    FormErrorMessage, } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import {  useUser } from "@auth0/nextjs-auth0";
@@ -12,7 +14,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { AFFINITY_TAGS_META, JOB_TITLES, ABOUT_ME_META, CHAT_TOPICS } from "../../lib/util/constants";
-import { getUserByEmail } from "../../lib/services/UserProfileSerivce";
 
 type UserProfileOverviewProps = {
     profile?: UserProfile,
@@ -30,41 +31,41 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
         initialValues:{
             firstName: user.given_name,
             lastName: user.family_name,
-            email: userProfile.email,
-            aboutMe: userProfile.aboutMe,
-            currentJobTitle: userProfile.currentJobTitle,
-            profileImage: userProfile.profileImage,
-            mentor: userProfile.mentor,
-            seekingMentorship: userProfile.seekingMentorship,
-            affinity: userProfile.affinity,
-            chatTopics: userProfile.chatTopics,
-            industry: null,
-            linkedinLink: userProfile.linkedinLink,
-            twitterLink: userProfile.twitterLink,
-            calendarType: Calendar.Google,
-            calendarLink: userProfile.calendarLink,
-            joinedDate: userProfile.joinedDate,
+            email: user.email,
+            aboutMe: userProfile?.aboutMe || "",
+            currentJobTitle: userProfile?.currentJobTitle || "",
+            profileImage: user.picture,
+            mentor: userProfile?.mentor || false,
+            seekingMentorship: userProfile?.seekingMentorship || false,
+            affinity: userProfile?.affinity || [],
+            chatTopics: userProfile?.chatTopics || [],
+            industry: userProfile?.industry ||  null,
+            linkedinLink: userProfile?.linkedinLink || "",
+            twitterLink: userProfile?.twitterLink || "",
+            calendarType: userProfile?.calendarType || Calendar.Calendly,
+            calendarLink: userProfile?.calendarLink || "",
             publicProfile: true
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required(""),
             lastName:Yup.string().required(""),
             email: Yup.string().required(""),
-            aboutMe: Yup.string().required("").max(600,"Maximum of 600 characater required").min(20,"Minimum of 20 characters required"),
-            currentJobTitle: Yup.string().optional(""),
-            profileImage:  Yup.string().required(""),
-            mentor:  Yup.bool().optional(),
-            seekingMentorship: Yup.bool().optional(),
-            affinity: Yup.array().optional(),
-            chatTopics: Yup.array().optional(),
-            linkedinLink: Yup.string().optional(),
-            twitterLink: Yup.string().optional(),
-            calendarLink: Yup.string().optional(),
-            publicProfile: Yup.bool().required("")
+            aboutMe: Yup.string().required("About Me section is required. Minimum characters 20. Maximum 600.").max(600,"Maximum of 600 characater required").min(20,"Minimum of 20 characters required"),
+            // currentJobTitle: Yup.string().optional(),
+            // profileImage:  Yup.string().required(""),
+            // mentor:  Yup.bool().optional(),
+            // seekingMentorship: Yup.bool().optional(),
+            // affinity: Yup.array().optional(),
+            // chatTopics: Yup.array().optional(),
+            linkedinLink: Yup.string().matches(/\S+linkedin\.com\/in\/\w+/, "Invalid format must be similar to https://www.linkedlin.com/in/nicuparente").optional(),
+            twitterLink: Yup.string().matches(/\S+twitter\.com\/\w+/, "Invalid format must be similar to https://www.twitter.com/nicuparente").optional(),
+            calendarLink: Yup.string().matches(/\S+calendly\.com\/\w+/, "Invalid format must be similar to https://calendly.com/meet-nicu/office-hours").optional(),
+            // publicProfile: Yup.bool().optional()
         }),
         onSubmit: async (values,actions) =>{
-            const result = await createUserProfile();
 
+            const result = await createUserProfile();
+            console.log(result)
         }
     })
     
@@ -79,16 +80,24 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
             body: JSON.stringify(formik.values)
         })
 
+        alert(response.json());
+
         const body = await response.json();
         
 
     }
-
-
     
     return <>
         <Center  width="100%" maxWidth="1080px">
-            <Flex   as="form" onSubmit={formik.handleSubmit}  flexDir={"column"} borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" padding="20px"  maxWidth="1080px">
+            <VStack 
+                as="form"
+                onSubmit={formik.handleSubmit}
+                borderRadius="md" 
+                boxShadow="lg" 
+                borderWidth="1px" 
+                padding="20px" 
+                width="100%" 
+                maxWidth="1080px">
                     <Center>
                         <Heading size="lg">Account</Heading>
                     </Center>
@@ -99,15 +108,23 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                         <Button onClick={(e)=> {e.preventDefault(); router.push("/api/auth/logout")}}  width="150px">Logout</Button>
                     </Center>
 
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                    <Text width="100%" marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                         Name
                     </Text>
                     
-                    <Text>
+                    <Text width="100%">
                         {`${formik.values.firstName} ${formik.values.lastName}`}
                     </Text>
 
-                    <FormControl marginTop="10px">
+                    <Text width="100%" marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                        Email
+                    </Text>
+                    
+                    <Text width="100%">
+                        {`${formik.values.email}`}
+                    </Text>
+
+                    <FormControl marginTop="10px" isInvalid={formik.errors.aboutMe && formik.touched.aboutMe}>
                         <FormLabel>About Me</FormLabel>
                         <Textarea 
                         name="aboutMe"
@@ -115,10 +132,11 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                         width="100%"
                         minHeight="150px"
                         height="100%"
-                        value={formik.values.aboutMe} 
-                        onChange={formik.handleChange}
-                        placeholder='Give a short intro about yourself your background and what you do now.'/>
-                        
+                        {...formik.getFieldProps("aboutMe")} //Handles the onChange, value, onBlur
+                        placeholder='Give a short intro about yourself, your background or what you want to discuss with others!'/>
+                        <FormErrorMessage>{formik.errors.aboutMe}</FormErrorMessage>
+                    </FormControl>
+
                         {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                             Current Job Title
                         </Text>
@@ -130,20 +148,20 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                             Would you like to be listed as a mentor?
                         </Text>
                         <Checkbox>Yes, I am a mentor. </Checkbox> */}
-
+                    <FormControl isInvalid={formik.errors.calendarLink && formik.touched.calendarLink}>
                         <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                             Booking Link
                         </Text>
                         <Text >
-                            Please create or provide your Calendly or Google Booking Page.   
+                            Please create or provide your Calendly   
                         </Text>
                         <Input
                             name="calendarLink" 
-                            onChange={formik.handleChange}
-                            value={formik.values.calendarLink}
+                            {...formik.getFieldProps("calendarLink")}
                             placeholder='Example: https://calendly.com/meet-nicu/office-hours'
                          />
-
+                        <FormErrorMessage>{formik.errors.calendarLink}</FormErrorMessage>
+                    </FormControl>
                         {/* TODO: Add affinity */}
                         {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                             Affinity (Optional)
@@ -161,28 +179,41 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                                 return <option value={pascalCase(chatTopic)}>{chatTopic}</option>
                             })}
                         </Select> */}
-
-                        <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                    <Text textAlign="left" width="100%" fontSize="lg" fontWeight="semibold" lineHeight="short">
                             Social Links
-                        </Text>
-                        <Flex marginY="10px"alignItems="center">
-                          <Text width="100%">https://www.linkedin.com/in/</Text>
-                          <Input value={formik.values.linkedinLink} placeholder='Example: nicuparente' />
-                        </Flex>
-                        <Flex alignItems="center" >
-                          <Text width="100%">https://www.twitter.com/</Text>
-                          <Input  value={formik.values.twitterLink} placeholder='Example: nicuparente' />
-                        </Flex>
+                    </Text>
 
+                    <Flex width="100%" justifyContent="space-between" flexWrap="wrap" >
+                        <FormControl marginY="5px" maxW="500px" isInvalid={formik.errors.linkedinLink && formik.touched.linkedinLink}>
+                            <InputGroup>
+                                <InputLeftAddon children="LinkedIn"/>
+                                <Input 
+                                  name="linkedinLink"
+                                  {...formik.getFieldProps("linkedinLink")}
+                                  placeholder='Example: https://www.linkedin.com/in/nicuparente' />
+                            </InputGroup>
+                            <FormErrorMessage>{formik.errors.linkedinLink}</FormErrorMessage>
+                        </FormControl>   
+
+                        <FormControl marginY="5px" maxW="500px" isInvalid={formik.errors.twitterLink && formik.touched.twitterLink}>
+                            <InputGroup>
+                                <InputLeftAddon children="Twitter"/>
+                                <Input 
+                                    name="twitterLink"
+                                    {...formik.getFieldProps("twitterLink")}
+                                    placeholder='Example: https://www.twitter.com/nicuparente' />
+                            </InputGroup>
+                            <FormErrorMessage>{formik.errors.twitterLink}</FormErrorMessage>
+                        </FormControl>
+                    </Flex>
                         {/* TODO: add validation on publish */}
                         {/* <Checkbox marginTop="10px" defaultChecked>Publish Profile</Checkbox> */}
 
                         <Flex marginY="20px" width="100%" justifyContent="space-around">
                             <Button type="submit" colorScheme="yellow" width="150px">Save</Button>
                         </Flex>
-                    </FormControl>
-
-                    <Accordion color="red.500" allowToggle>
+                    
+                    <Accordion width="100%" color="red.500" allowToggle>
                         <AccordionItem>
                           <h2>
                             <AccordionButton>
@@ -200,8 +231,7 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                           </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
-
-            </Flex>
+            </VStack>
         </Center>
     </>
 }

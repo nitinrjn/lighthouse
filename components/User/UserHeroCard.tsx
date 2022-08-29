@@ -18,6 +18,9 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from 'next/router'
 
 import AffinityTags from "./AffinityTags";
+import CalendarHidden from "./CalendarHidden";
+
+
 
 
 const UserHeroCard = (props) =>{
@@ -28,7 +31,7 @@ const UserHeroCard = (props) =>{
 
     return (
         <Center marginY="10px" maxWidth="1080px" width="100%" minHeight="70vh">
-            <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" width="100%">
+            <Flex p="5" borderRadius="md"  minWidth="350px" boxShadow="lg"  borderWidth="1px" width="100%" >
               <Flex  flexDirection="column" marginLeft="10px" minWidth="350px" maxWidth="75%">
                   <Flex alignItems="center" minWidth="350px">
                     <Avatar size='xl' name={`${connectionProfile.firstName} ${connectionProfile.lastName}`} src={connectionProfile.profileImage} />
@@ -52,44 +55,51 @@ const UserHeroCard = (props) =>{
                         Let's Chat About 
                     </Text> */}
 
-                    <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                      Links 
-                    </Text>
-                    {connectionProfile.twitterLink != '' ? 
-                      <Button 
-                        as="a" 
-                        target="_blank" 
-                        onClick={(e)=>{e.preventDefault(); 
-                        router.push(`https://www.twitter.com/${connectionProfile.twitterLink}`)}} 
-                        colorScheme='twitter' 
-                        size="lg" 
-                        variant='link' leftIcon={<FaTwitterSquare />}>
-                        Twitter
-                      </Button>
-                    : ""  
+                    {connectionProfile.twitterLink != '' || connectionProfile.linkedinLink != '' ? 
+                      <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                        Social Links
+                      </Text>
+                      : ""
                     }
 
-                    {connectionProfile.linkedinLink != '' ? 
-                      <Button 
-                        as="a" 
-                        target="_blank" 
-                        onClick={(e)=>{e.preventDefault(); router.push(`https://www.linkedin.com/in/${connectionProfile.linkedinLink}`)}} 
-                        colorScheme='gray' 
-                        size="lg" 
-                        variant='link' 
-                        marginX="10px"
-                        leftIcon={<FaLinkedin />}>
-                        LinkedIn
-                      </Button>
-                    : ""  
-                    }
+                    <Flex marginTop="5px" width="100%">
+                      {connectionProfile.twitterLink != '' ? 
+                        <Button 
+                          as="a" 
+                          target="_blank" 
+                          onClick={(e)=>{e.preventDefault(); 
+                          router.push(`${connectionProfile.twitterLink}`)}} 
+                          colorScheme='twitter' 
+                          size="lg"  
+                          leftIcon={<FaTwitterSquare />}>
+                          Twitter
+                        </Button>
+                      : ""  
+                      }
+
+                      {connectionProfile.linkedinLink != '' ? 
+                        <Button 
+                          marginLeft="10px"
+                          as="a" 
+                          target="_blank" 
+                          onClick={(e)=>{e.preventDefault(); router.push(`${connectionProfile.linkedinLink}`)}} 
+                          colorScheme='gray' 
+                          size="lg" 
+                          leftIcon={<FaLinkedin />}>
+                          LinkedIn
+                        </Button>
+                      : ""  
+                      }
+                    </Flex>
+                    
                 </Box>
               </Flex>  
-              <Spacer/>     
+              <Spacer/>    
+                  
               {connectionProfile.calendarType == Calendar.Calendly ?       
-                <Box maxWidth="400px"  minWidth="350px"width="100%" height="100%">
-                    <InlineWidget 
-                     styles={{height: '100%'}} 
+                <Box maxWidth="400px" minHeight="350px" minWidth="350px" width="100%" height="100%">
+                   {user?  <InlineWidget 
+                     styles={{height: '350px'}} 
                      pageSettings={{
                         backgroundColor: 'ffffff',
                         hideEventTypeDetails: true,
@@ -98,24 +108,31 @@ const UserHeroCard = (props) =>{
                         textColor: '4d5055'
                       }}
                       prefill={{
-                        email: user.email,
-                        firstName: user.given_name,
-                        lastName: user.family_name,
+                        email: user?.email || "",
+                        firstName: user?.given_name || "",
+                        lastName: user?.family_name || "",
                         name: `${user.firstName} ${user.lastName}`
                       }}
-                     url={connectionProfile.calendarLink} />
+                     url={connectionProfile.calendarLink} /> 
+                     : 
+                      <CalendarHidden/>
+                     }
                 </Box>
                 : ""}
-                { connectionProfile.calendarType == Calendar.Google ? 
-                  <Box  maxWidth="400px" minWidth="350px" width="100%" height="100%">
-                    <iframe
-                      width="100%" 
-                      height={400}
-                      src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3ISE7FiVmgezkfNvN3vo4lbbDhstrUoJIjSs2_qPOlF4xr802jGckXxJJAxuE1hVFIinK0pPFs"
-                    />
-                  </Box> 
-                  :""
+              {connectionProfile.calendarType == Calendar.Google ? 
+                <Box  maxWidth="400px" minWidth="350px" width="100%" minHeight={"350px"} height="100%">
+                {user ? 
+                  <iframe
+                  width="100%" 
+                  height={400}
+                  src={connectionProfile.calendarLink}
+                  />
+                :
+                  <CalendarHidden/>
                 }
+                </Box> 
+                :""
+              }
                 
             </Flex>
       </Center>
