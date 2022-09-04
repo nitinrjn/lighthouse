@@ -7,17 +7,22 @@
 # Lighthouse 
 Lighthouse makes it easier for people from various backgrounds to spark meaningful conversations and share their unique experiences and insights. 
 
-<br/>
-Built using NextJS and Chakra UI
-<br/>
-
-
 <br/> 
 
-# Setup
+### Built Using
+- NextJS
+- ChakraUI
+- Prisma ORM
+- Auth0
 
-## Authentication
-Lighthouse uses Auth0 for user authentication. You can follow the (Auth0 Setup for NextJs)[https://auth0.com/docs/quickstart/webapp/nextjs/interactive] documentation
+# Setup
+**Requirements**
+- NodeJS > 16 LTS 
+- Auth0 Account
+- Postgres DB
+
+**Auth 0 and Authentication**
+Lighthouse uses Auth0 for user authentication. You can follow the https://auth0.com/docs/quickstart/webapp/nextjs/interactive documentation
 
 # Copyright & License
 Copyright (c) 2022 Nicu Parente - Released under the [MIT License](./LICENSE).
