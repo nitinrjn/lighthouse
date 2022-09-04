@@ -1,13 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession, Session, UserProfile } from '@auth0/nextjs-auth0';
 
-import { getConnectionProfiles } from "../../lib/services/ConnectionsService";
+import { getConnectionProfiles, getFeaturedUsers } from "../../lib/services/ConnectionsService";
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     const session: Session = getSession(req,res);
     
     if(req.method === "GET"){
-        const result= await getConnectionProfiles();
+
+        let result;
+        
+        if('featured' in req.query) {
+            result = await getFeaturedUsers(3);
+        }
+        else{
+            result= await getConnectionProfiles();
+        }
+
         return res.status(200).json(result)
     }
     

@@ -5,13 +5,16 @@ import { createOrUpdateUser, deleteUser, getUserByEmail , updateUser, UserProfil
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
     const session: Session = getSession(req,res);
-    
+    const sessionExpired: boolean = session.accessTokenExpiresAt - (Math.round(Date.now()/1000)) < 1 ? true : false;
+
     if(req.method === "GET"){
         const result= await getUserByEmail(session.user.email);
         return res.status(200).json(result)
     }
 
     if(req.method === "POST"){
+        if(session.user.email != req.body.email && sessionExpired) return res.status(401).json({});
+        
         const result = await createOrUpdateUser(req.body)
         return res.status(200).json(result);
     }
@@ -22,7 +25,11 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     }
 
     if(req.method === "DELETE"){
-        const result = await updateUser(req.body)
+        
+        if(!session) return res.status(401).json({});
+        if(session.user.email != req.body.email && sessionExpired) return res.status(401).json({});
+        
+        const result = await deleteUser(req.body)
         return res.status(200).json(result);
 
     }

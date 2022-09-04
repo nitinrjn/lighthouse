@@ -13,9 +13,10 @@ const Connect = (props) => {
     return <>
         <Flex 
          minWidth="100%"
+         maxWidth="1080px"
          minHeight="100%"
          flexDirection="column"
-         alignContent="stretch"
+         alignItems="stretch"
          >
             <Center marginY="20px">
                 <Heading>Lets spark some conversations. </Heading>
@@ -26,12 +27,13 @@ const Connect = (props) => {
                     <CircularProgress  isIndeterminate color='yellow.500'/> 
                 </Center>
                 :
-                userConnections.userProfiles.map( (userProfile, index) =>{
-                    return <UserHeroCard user={userProfile} key={userProfile.id}/>
-                })
+                <Flex flexDir="column">
+                     {userConnections.userProfiles.map( (userProfile, index) =>{
+                        return <UserHeroCard user={userProfile} key={userProfile.id}/>
+                    })}
+                </Flex>
             }
 
-            {}
         </Flex>
     </>
 }

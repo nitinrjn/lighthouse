@@ -4,7 +4,7 @@ import { Center, Heading,Avatar, Text,Box, Flex, Textarea, Select, Checkbox, Inp
     AccordionPanel,
     AccordionIcon,
     VStack,
-    FormErrorMessage, } from "@chakra-ui/react";
+    FormErrorMessage,  useToast} from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import {  useUser } from "@auth0/nextjs-auth0";
@@ -25,6 +25,7 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
 
     const {user, error} = useUser();
     const router = useRouter();
+    const toast = useToast();
     const [userProfile, setUserProfile] = useState<UserProfile>(profile);
 
     const formik = useFormik({
@@ -50,7 +51,7 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
             firstName: Yup.string().required(""),
             lastName:Yup.string().required(""),
             email: Yup.string().required(""),
-            aboutMe: Yup.string().required("About Me section is required. Minimum characters 20. Maximum 600.").max(600,"Maximum of 600 characater required").min(20,"Minimum of 20 characters required"),
+            aboutMe: Yup.string().optional().max(600,"Maximum of 600 characater required").min(10,"Minimum of 10 characters required"),
             // currentJobTitle: Yup.string().optional(),
             // profileImage:  Yup.string().required(""),
             // mentor:  Yup.bool().optional(),
@@ -65,12 +66,28 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
         onSubmit: async (values,actions) =>{
 
             const result = await createUserProfile();
-            console.log(result)
+
+            if(!result.success) toast({
+                title: 'Error encountered while updating you account info.',
+                description: "Please try again later!",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })   
+    
+            
+            toast({
+                title: 'Account successfully updated.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            })   
+    
+            setUserProfile(result.userProfile);
         }
     })
     
     const createUserProfile = async () =>{
-        console.log(formik.values)
         const response = await fetch('/api/user', 
         {
             method:'POST',
@@ -80,18 +97,35 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
             body: JSON.stringify(formik.values)
         })
 
-        alert(response.json());
-
-        const body = await response.json();
-        
+        return await response.json();
 
     }
     
+    const deleteUserProfile = async () =>{
+        const response = await fetch('/api/user', 
+        {
+            method:'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formik.values)
+        })
+        const body = await response.json()
+        
+        if(body.success) {
+            toast({
+                title: 'Account Successfully Deleted. Logging you out!',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            })            
+            router.push("/api/auth/logout")
+        }
+    }
+
     return <>
         <Center  width="100%" maxWidth="1080px">
             <VStack 
-                as="form"
-                onSubmit={formik.handleSubmit}
                 borderRadius="md" 
                 boxShadow="lg" 
                 borderWidth="1px" 
@@ -124,18 +158,19 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                         {`${formik.values.email}`}
                     </Text>
 
-                    <FormControl marginTop="10px" isInvalid={formik.errors.aboutMe && formik.touched.aboutMe}>
-                        <FormLabel>About Me</FormLabel>
-                        <Textarea 
-                        name="aboutMe"
-                        minWidth="350px" 
-                        width="100%"
-                        minHeight="150px"
-                        height="100%"
-                        {...formik.getFieldProps("aboutMe")} //Handles the onChange, value, onBlur
-                        placeholder='Give a short intro about yourself, your background or what you want to discuss with others!'/>
-                        <FormErrorMessage>{formik.errors.aboutMe}</FormErrorMessage>
-                    </FormControl>
+                    <form  style={{width:" 100%"}} onSubmit={formik.handleSubmit}>
+                        <FormControl marginTop="10px" isInvalid={formik.errors.aboutMe && formik.touched.aboutMe}>
+                            <FormLabel>About Me</FormLabel>
+                            <Textarea 
+                            name="aboutMe"
+                            minWidth="350px" 
+                            width="100%"
+                            minHeight="150px"
+                            height="100%"
+                            {...formik.getFieldProps("aboutMe")} //Handles the onChange, value, onBlur
+                            placeholder='Give a short intro about yourself, your background or what you want to discuss with others!'/>
+                            <FormErrorMessage>{formik.errors.aboutMe}</FormErrorMessage>
+                        </FormControl>
 
                         {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                             Current Job Title
@@ -148,20 +183,20 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                             Would you like to be listed as a mentor?
                         </Text>
                         <Checkbox>Yes, I am a mentor. </Checkbox> */}
-                    <FormControl isInvalid={formik.errors.calendarLink && formik.touched.calendarLink}>
-                        <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                            Booking Link
-                        </Text>
-                        <Text >
-                            Please create or provide your Calendly   
-                        </Text>
-                        <Input
-                            name="calendarLink" 
-                            {...formik.getFieldProps("calendarLink")}
-                            placeholder='Example: https://calendly.com/meet-nicu/office-hours'
-                         />
-                        <FormErrorMessage>{formik.errors.calendarLink}</FormErrorMessage>
-                    </FormControl>
+                        <FormControl isInvalid={formik.errors.calendarLink && formik.touched.calendarLink}>
+                            <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                                Booking Link
+                            </Text>
+                            <Text >
+                                Calendly booking link is required to show up in the connect page.   
+                            </Text>
+                            <Input
+                                name="calendarLink" 
+                                {...formik.getFieldProps("calendarLink")}
+                                placeholder='Example: https://calendly.com/meet-nicu/office-hours'
+                             />
+                            <FormErrorMessage>{formik.errors.calendarLink}</FormErrorMessage>
+                        </FormControl>
                         {/* TODO: Add affinity */}
                         {/* <Text marginTop="20px" fontSize="lg" fontWeight="semibold" lineHeight="short">
                             Affinity (Optional)
@@ -179,40 +214,44 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                                 return <option value={pascalCase(chatTopic)}>{chatTopic}</option>
                             })}
                         </Select> */}
-                    <Text textAlign="left" width="100%" fontSize="lg" fontWeight="semibold" lineHeight="short">
-                            Social Links
-                    </Text>
 
-                    <Flex width="100%" justifyContent="space-between" flexWrap="wrap" >
-                        <FormControl marginY="5px" maxW="500px" isInvalid={formik.errors.linkedinLink && formik.touched.linkedinLink}>
-                            <InputGroup>
-                                <InputLeftAddon children="LinkedIn"/>
-                                <Input 
-                                  name="linkedinLink"
-                                  {...formik.getFieldProps("linkedinLink")}
-                                  placeholder='Example: https://www.linkedin.com/in/nicuparente' />
-                            </InputGroup>
-                            <FormErrorMessage>{formik.errors.linkedinLink}</FormErrorMessage>
-                        </FormControl>   
+                        <Flex width="100%" justifyContent="space-between" flexWrap="wrap" >
+                            <Text textAlign="left" marginTop="20px" width="100%" fontSize="lg" fontWeight="semibold" lineHeight="short">
+                                    Social Links
+                            </Text>
+                            <FormControl marginY="5px" maxW="500px" isInvalid={formik.errors.linkedinLink && formik.touched.linkedinLink}>
+                                <InputGroup>
+                                    <InputLeftAddon> LinkedIn </InputLeftAddon>
+                                    <Input 
+                                      name="linkedinLink"
+                                      {...formik.getFieldProps("linkedinLink")}
+                                      placeholder='Example: https://www.linkedin.com/in/nicuparente' />
+                                </InputGroup>
+                                <FormErrorMessage>{formik.errors.linkedinLink}</FormErrorMessage>
+                            </FormControl>   
 
-                        <FormControl marginY="5px" maxW="500px" isInvalid={formik.errors.twitterLink && formik.touched.twitterLink}>
-                            <InputGroup>
-                                <InputLeftAddon children="Twitter"/>
-                                <Input 
-                                    name="twitterLink"
-                                    {...formik.getFieldProps("twitterLink")}
-                                    placeholder='Example: https://www.twitter.com/nicuparente' />
-                            </InputGroup>
-                            <FormErrorMessage>{formik.errors.twitterLink}</FormErrorMessage>
-                        </FormControl>
-                    </Flex>
+                            <FormControl marginY="5px" maxW="500px" isInvalid={formik.errors.twitterLink && formik.touched.twitterLink}>
+                                <InputGroup>
+                                    <InputLeftAddon> Twitter </InputLeftAddon>
+                                    <Input 
+                                        name="twitterLink"
+                                        {...formik.getFieldProps("twitterLink")}
+                                        placeholder='Example: https://www.twitter.com/nicuparente' />
+                                </InputGroup>
+                                <FormErrorMessage>{formik.errors.twitterLink}</FormErrorMessage>
+                            </FormControl>
+
+                            <Flex marginY="20px" width="100%" justifyContent="space-around">
+                                <Button type="submit" colorScheme="yellow" width="150px">{userProfile !== null ? "Save Account" : "Create Account"}</Button>
+                            </Flex>
+                        </Flex>
                         {/* TODO: add validation on publish */}
                         {/* <Checkbox marginTop="10px" defaultChecked>Publish Profile</Checkbox> */}
 
-                        <Flex marginY="20px" width="100%" justifyContent="space-around">
-                            <Button type="submit" colorScheme="yellow" width="150px">Save</Button>
-                        </Flex>
+                    </form>
                     
+                    {/* Don't show if there is no user profile or first time logging in */}
+                    {userProfile !== null ?
                     <Accordion width="100%" color="red.500" allowToggle>
                         <AccordionItem>
                           <h2>
@@ -226,11 +265,13 @@ const UserSetup = ({profile}: UserProfileOverviewProps) =>{
                           <AccordionPanel>
                             <Flex flexDir="column" alignItems="center" width="100%" height={"100px"} justifyContent="space-around" >
                                 <Text >Warning: All your data will be lost when you delete your account</Text>
-                                <Button variant="outline" width="200px" onClick={(e) => {e.preventDefault}} colorScheme="red">Delete Account</Button>
+                                <Button variant="outline" width="200px" onClick={deleteUserProfile} colorScheme="red">Delete Account</Button>
                             </Flex>
                           </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
+                    : ""
+                    }   
             </VStack>
         </Center>
     </>

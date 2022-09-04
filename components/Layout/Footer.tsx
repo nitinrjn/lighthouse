@@ -12,12 +12,6 @@ const Foooter = (props) =>{
                        About  
                    </Button>
                </NextLink>
-
-               <NextLink href="/resources">
-                   <Button marginX="10px" variant="link" color="white">
-                       Resources 
-                   </Button>
-               </NextLink>  
                
                <Button marginX="10px" color="yellow.300" variant="link" onClick={(e)=>{e.preventDefault(); router.push("https://github.com/nicuparente/lighthouse")}}>
                    Open Source on GitHub!
