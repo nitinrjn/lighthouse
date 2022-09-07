@@ -36,6 +36,12 @@ Lighthouse uses Auth0 for user authentication. You can follow the https://auth0.
 - Click on the third option provided to access your calander connections.
 - You will be presented with the options to add 6 calenders of your choice.
 - Add your preference by clicking on the add calender account
+- Choose from 5 options provided eg. gmail, microsoft & icloud.
+- Click on the connect botton with your prefered choice.
+- You will be presented with a login screen of your choice. eg. For gmail you will need to provide your email and password.
+- Which will bring you to another screen which will ask you to grant access to calendly.
+- This will allow calendly to sync with your perfered calender once you click on the allow botton.
+- This will provide a pop up notifying you that the calender of your choice is in sync.
 
 # Copyright & License
 Copyright (c) 2022 Nicu Parente - Released under the [MIT License](./LICENSE).
